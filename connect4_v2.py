@@ -19,6 +19,7 @@ turns = deque([(player_one, symb_one), (player_two, symb_two)])
 
 def position_checker(col):
     for i in range(ROWS):
+
         if board[-i-1][col-1] == "0":
             position = ((-i-1),(col-1))
             board[-i-1][col-1] = turns[0][1]
@@ -27,6 +28,7 @@ def position_checker(col):
         if board[0][col-1] != "0":
             print("no free slots- invalid choice!")
             break
+
 
 def result_check(current_position):
     points = 1
@@ -93,7 +95,11 @@ while True:
 
     except ValueError:
         play_position = int(input(f"{turns[0][0]} choose your valid move: "))
-    position = position_checker(play_position)
+    try:
+        position = position_checker(play_position)
+    except IndexError:
+        print("invalid move, try again!")
+        continue
     if result_check(position) >= 4:
         print_board()
         print(Fore.BLUE + f"{turns[0][0]} wins the game!!!" + Fore.RESET)
@@ -105,3 +111,4 @@ while True:
         raise SystemExit()
     print_board()
     turns.rotate()
+    
